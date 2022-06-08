@@ -5,8 +5,9 @@ import { Proizvod } from "../../app/layout/models/proizvod";
 interface Props {
     proizvod: Proizvod;
 }
-
 export default function ProizvodiCard({proizvod}: Props){
+  
+
     return (
         <Card>
           <CardHeader

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import agent from "../../app/api/agent";
 import { Proizvod } from "../../app/layout/models/proizvod"
 import ProizvodiList from "./ProizvodiList";
 
@@ -7,9 +8,7 @@ export default function Catalog() {
     const [proizvodi, setProizvodi] = useState<Proizvod[]>([]);
 
  useEffect(() => {
-   fetch('http://localhost:5202/api/proizvodi')
-   .then(response => response.json())
-   .then(data => setProizvodi(data))
+   agent.Catalog.list().then(proizvodi => setProizvodi(proizvodi))
  }, []) //kada koristimo prazan niz, znaci da ce se pozvati samo jednom! /[] da ga nema, bila bi beskonacna petlja
 
 

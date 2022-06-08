@@ -9,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProizvodiController : ControllerBase
+   
+    public class ProizvodiController : BaseApiController
     {
         private readonly StoreContext _context;
        
@@ -33,7 +32,11 @@ namespace API.Controllers
 
         public async Task<ActionResult<Proizvod>> GetProizvod(int id)
         {
-            return await _context.Proizvodi.FindAsync(id);
+            var proizvod = await _context.Proizvodi.FindAsync(id);
+
+            if (proizvod == null) return NotFound();
+
+            return proizvod;
 
         }
     }

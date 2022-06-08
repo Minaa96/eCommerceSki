@@ -1,7 +1,7 @@
 import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
+import agent from "../../app/api/agent";
 import { Proizvod } from "../../app/layout/models/proizvod";
 
 
@@ -10,13 +10,19 @@ export default function ProizvodDetails() {
     const [proizvod, setProizvodi] = useState<Proizvod | null>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => { 
-        axios.get(`http://localhost:5202/api/proizvodi/${id}`)
-        .then(response => setProizvodi(response.data))
+
+    useEffect(() => {
+        agent.Catalog.details(parseInt(id))
+        .then(response => setProizvodi(response))
         .catch(error => console.log(error))
         .finally(() => setLoading(false));
-    }, [id])
 
+        
+    }, [id] )
+    
+    
+    
+   
     if (loading) 
     return <h3>Ucitavanje...</h3>
 
@@ -26,7 +32,7 @@ export default function ProizvodDetails() {
     return (
         <Grid container spacing={6}>
             <Grid item xs={6}>
-                <img src={proizvod.pictureUrl} alt={proizvod.ime} style={{width: '100%'}} />
+                <img src={"/"+proizvod.pictureUrl} alt={proizvod.ime} style={{width: '100%'}} />
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h3'>{proizvod.ime}</Typography>
