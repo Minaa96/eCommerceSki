@@ -2,6 +2,8 @@ import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, T
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Proizvod } from "../../app/layout/models/proizvod";
 
 
@@ -24,10 +26,10 @@ export default function ProizvodDetails() {
     
    
     if (loading) 
-    return <h3>Ucitavanje...</h3>
+    return <LoadingComponent message="Loading products..."/>
 
     if (!proizvod)
-    return <h3>Proizvod nije pronadjen!</h3>
+    return <NotFound />
 
     return (
         <Grid container spacing={6}>
