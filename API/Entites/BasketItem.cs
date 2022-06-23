@@ -12,6 +12,6 @@ namespace API.Entites
         public Proizvod Proizvod { get; set; }
 
         public int BasketId { get; set; }
-        public Basket Basket { get; set; }
+        public Basket Basket { get; set; } //jer basketitem zavisi od basket
     }
 }

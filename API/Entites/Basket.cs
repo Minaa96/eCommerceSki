@@ -22,7 +22,7 @@ namespace API.Entites
             var existingItem = Items.FirstOrDefault(item => item.ProizvodId == proizvod.Id);
             if (existingItem != null) existingItem.Quantity += quantity;
         }
-        public void RemoveItem(int proizvodId, int quantity)
+        public void RemoveItem(int proizvodId, int quantity) //za update db
         {
             var item = Items.FirstOrDefault(item => item.ProizvodId == proizvodId);
             if (item == null) return;
