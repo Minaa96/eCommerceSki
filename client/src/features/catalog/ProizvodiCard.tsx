@@ -1,12 +1,23 @@
+import { LoadingButton } from "@mui/lab";
 import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Proizvod } from "../../app/layout/models/proizvod";
+import agent from "../../app/api/agent";
+import { Proizvod } from "../../app/models/proizvod";
 
 interface Props {
     proizvod: Proizvod;
 }
+
 export default function ProizvodiCard({proizvod}: Props){
-  
+  const [loading, setLoading] = useState(false);
+
+  function handleAddItem(proizvodId: number) {
+    setLoading(true);
+    agent.Basket.addItem(proizvodId)
+    .catch(error => console.log(error))
+    .finally(() => setLoading (false))
+    }
 
     return (
         <Card>
@@ -35,7 +46,8 @@ export default function ProizvodiCard({proizvod}: Props){
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Dodaj u kolica</Button>
+          <LoadingButton loading={loading} onClick={() => handleAddItem(proizvod.id)}
+                       size="small">Dodaj u kolica</LoadingButton>
           <Button component={Link} to={`/catalog/${proizvod.id}`} size="small">Pregled</Button>
         </CardActions>
       </Card>

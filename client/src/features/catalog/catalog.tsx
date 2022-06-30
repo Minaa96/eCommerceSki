@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import agent from "../../app/api/agent";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Proizvod } from "../../app/layout/models/proizvod"
+import { Proizvod } from "../../app/models/proizvod"
 import ProizvodiList from "./ProizvodiList";
 
 export default function Catalog() {

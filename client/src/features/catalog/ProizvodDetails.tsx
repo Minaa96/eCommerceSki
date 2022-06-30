@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Proizvod } from "../../app/layout/models/proizvod";
+import { Proizvod } from "../../app/models/proizvod";
 
 
 export default function ProizvodDetails() {

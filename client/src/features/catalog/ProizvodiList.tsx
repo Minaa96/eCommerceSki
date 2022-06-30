@@ -1,5 +1,5 @@
 import { Grid, List } from "@mui/material";
-import { Proizvod } from "../../app/layout/models/proizvod";
+import { Proizvod } from "../../app/models/proizvod";
 import ProizvodiCard from "./ProizvodiCard";
 
 interface Props {

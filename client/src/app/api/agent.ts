@@ -7,7 +7,8 @@ import { history } from "../..";
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500));
 
 
-axios.defaults.baseURL = 'http://localhost:5202/api/'
+axios.defaults.baseURL = 'http://localhost:5202/api/';
+axios.defaults.withCredentials = true;
 
 const responseBody = (response: AxiosResponse) => response.data;
 
@@ -72,8 +73,16 @@ const TestErrors = {
     
 }
 
+const Basket = {
+    get: () => requests.get('basket'),
+    addItem: (proizvodId: number, quantity = 1 ) => requests.post(`basket?proizvodId=${proizvodId}&quantity=${quantity}`, {}),
+    removeItem: (proizvodId: number, quantity = 1 ) => requests.delete(`basket?proizvodId=${proizvodId}&quantity=${quantity}`)
+}
+
 const agent = {
-    Catalog, TestErrors
+    Catalog, 
+    TestErrors,
+    Basket
 }
 
 export default agent;
