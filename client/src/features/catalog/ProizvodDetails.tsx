@@ -1,29 +1,57 @@
-import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import agent from "../../app/api/agent";
+import { useStoreContext } from "../../app/context/StoreContext";
 import NotFound from "../../app/errors/NotFound";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { Proizvod } from "../../app/models/proizvod";
 
 
 export default function ProizvodDetails() {
+    const {basket, setBasket, removeItem} = useStoreContext();
     const {id}= useParams<{id: string}>();
     const [proizvod, setProizvodi] = useState<Proizvod | null>(null);
     const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(0);
+    const [submitting, setSubmitting] = useState(false);
+    const item = basket?.items.find(i => i.proizvodId === proizvod?.id);
 
 
     useEffect(() => {
+        if (item) setQuantity(item.kolicina);
         agent.Catalog.details(parseInt(id))
         .then(response => setProizvodi(response))
         .catch(error => console.log(error))
         .finally(() => setLoading(false));
 
         
-    }, [id] )
+    }, [id, item] )
     
+    function handleInputChange(event: any) {
+        if (event.target.value >= 0) {
+            setQuantity(parseInt(event.target.value));
+        }
+       
+    }
     
-    
+    function handleUpdateCart() {
+      setSubmitting(true);
+      if (!item || quantity > item.kolicina) {
+        const updatedQuantity = item ? quantity - item.kolicina : quantity;
+        agent.Basket.addItem(proizvod?.id!, updatedQuantity)
+            .then(basket => setBasket(basket))
+            .catch(error => console.log(error))
+            .finally(() => setSubmitting(false))
+      } else {
+        const updatedQuantity = item.kolicina - quantity;
+        agent.Basket.removeItem(proizvod?.id!, updatedQuantity)
+            .then(() => removeItem(proizvod?.id!, updatedQuantity))
+            .catch(error => console.log(error))
+            .finally(() => setSubmitting(false));
+      }
+    }
    
     if (loading) 
     return <LoadingComponent message="Loading products..."/>
@@ -74,6 +102,32 @@ export default function ProizvodDetails() {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <TextField 
+                            onChange={handleInputChange}
+                            variant='outlined'
+                            type='number'
+                            label='Kolicina u kolicima'
+                            fullWidth
+                            value={quantity}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <LoadingButton 
+                            disabled={item?.kolicina === quantity || !item && quantity === 0}
+                            loading={submitting}
+                            onClick={handleUpdateCart}
+                            sx={{height: '55px'}}
+                            size='large'
+                            variant='contained'
+                            fullWidth
+                        >
+                            {item ? 'Azuriranje kolicine' : 'Dodaj u kolica'}
+                        </LoadingButton>
+
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     )

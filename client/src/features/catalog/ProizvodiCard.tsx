@@ -3,7 +3,9 @@ import { Avatar, Button, Card, CardActions, CardContent, CardHeader, CardMedia, 
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import agent from "../../app/api/agent";
+import { useStoreContext } from "../../app/context/StoreContext";
 import { Proizvod } from "../../app/models/proizvod";
+import { currencyFormat } from "../../app/util/util";
 
 interface Props {
     proizvod: Proizvod;
@@ -11,12 +13,14 @@ interface Props {
 
 export default function ProizvodiCard({proizvod}: Props){
   const [loading, setLoading] = useState(false);
+  const {setBasket} = useStoreContext();
 
   function handleAddItem(proizvodId: number) {
     setLoading(true);
     agent.Basket.addItem(proizvodId)
-    .catch(error => console.log(error))
-    .finally(() => setLoading (false))
+      .then(basket => setBasket(basket))
+      .catch(error => console.log(error))
+      .finally(() => setLoading (false))
     }
 
     return (
@@ -39,7 +43,7 @@ export default function ProizvodiCard({proizvod}: Props){
         />
         <CardContent>
           <Typography gutterBottom color='secondary' variant="h5" >
-              {proizvod.cena.toFixed(2)} rsd
+              {currencyFormat(proizvod.cena)} 
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {proizvod.brend} / {proizvod.tip}
