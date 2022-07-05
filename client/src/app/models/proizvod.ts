@@ -1,3 +1,4 @@
+
 export interface Proizvod {
     id: number;
     ime: string;
@@ -10,4 +11,13 @@ export interface Proizvod {
     brend: string;
     kolicinaNaStanju?: string;
     
+}
+
+export interface ProductParams {
+    orderBy: string;
+    searchTerm?: string;
+    tip: string[];
+    brend: string[];
+    pageNumber: number;
+    pageSize: number;
 }
