@@ -1,24 +1,21 @@
-import { useState, useEffect } from "react";
-import agent from "../../app/api/agent";
+import { useEffect } from "react";
 import LoadingComponent from "../../app/layout/LoadingComponent";
-import { Proizvod } from "../../app/models/proizvod"
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchProizvodiAsync, productsSelectors } from "./catalogSlice";
 import ProizvodiList from "./ProizvodiList";
 
 export default function Catalog() {
 
-    const [proizvodi, setProizvodi] = useState<Proizvod[]>([]);
-    const [loading, setLoading] = useState(true);
+    const proizvodi = useAppSelector(productsSelectors.selectAll);
+    const {productsLoaded, status} = useAppSelector(state => state.catalog);
+    const dispatch = useAppDispatch();
+    
 
  useEffect(() => {
-   agent.Catalog.list()
-   .then(proizvodi => setProizvodi(proizvodi))
-   .catch(error => console.log (error))
-   .finally(() => setLoading(false))
-   
-    
- }, []) //kada koristimo prazan niz, znaci da ce se pozvati samo jednom! /[] da ga nema, bila bi beskonacna petlja
+    if (!productsLoaded) dispatch(fetchProizvodiAsync());
+ }, [productsLoaded, dispatch]) //kada koristimo prazan niz, znaci da ce se pozvati samo jednom! /[] da ga nema, bila bi beskonacna petlja
 
- if (loading) return <LoadingComponent message='Loading products...'/>
+ if (status.includes('pending')) return <LoadingComponent message='Loading products...'/>
 
     return (
         <>

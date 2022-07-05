@@ -39,7 +39,7 @@ namespace API.Controllers
             if (basket == null) basket = CreateBasket(); //kreiranje basketa
             var proizvod = await _context.Proizvodi.FindAsync(proizvodId);
             if (proizvod == null) 
-                return NotFound(); 
+                return BadRequest(new ProblemDetails{Title = "Proizvod nije pronadjen!"}); 
             
             //add item
             basket.AddItem(proizvod, quantity);

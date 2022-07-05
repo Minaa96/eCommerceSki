@@ -1,35 +1,17 @@
 import { Add, Delete, Remove } from "@mui/icons-material";
-import { LoadingButton, loadingButtonClasses } from "@mui/lab";
-import { Box, Button, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, useStepperContext } from "@mui/material";
-import { useState } from "react";
+import { LoadingButton } from "@mui/lab";
+import { Box, Button, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import agent from "../../app/api/agent";
-import { useStoreContext } from "../../app/context/StoreContext";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
 import BasketSummary from "./BasketSummary";
 
 export default function BasketPage() {
-    const {basket, setBasket, removeItem} = useStoreContext();
-    const [status, setStatus] = useState({
-      loading: false,
-      name: ''
-    });
+    const {basket, status} = useAppSelector(state => state.basket);
+    const dispatch = useAppDispatch();
 
-    function handleAddItem(proizvodId: number, name: string) {
-      setStatus({loading: true, name});
-      agent.Basket.addItem(proizvodId)
-        .then(basket => setBasket(basket))
-        .catch(error => console.log(error))
-        .finally(() => setStatus({loading: false, name: ''}))
 
-    }
-
-    function handleRemoveItem(proizvodId: number, kolicina = 1, name: string) {
-      setStatus({loading: true, name});
-      agent.Basket.removeItem(proizvodId, kolicina) 
-        .then(() => removeItem(proizvodId, kolicina))
-        .catch(error => console.log(error))
-        .finally(() => setStatus({loading: false, name: ''}))
-    }
+   
 
     if(!basket) return <Typography variant='h3'>Vasa korpa je prazna.</Typography>
 
@@ -61,15 +43,17 @@ export default function BasketPage() {
                 <TableCell align="right">{(item.cena).toFixed(2)}rsd</TableCell>
                 <TableCell align="center">
                   <LoadingButton
-                                 loading={status.loading && status.name === 'rem' + item.proizvodId}
-                                 onClick={() => handleRemoveItem(item.proizvodId, 1, 'rem' + item.proizvodId)} 
+                                 loading={status === 'pendingRemoveItem' + item.proizvodId + 'rem'}
+                                 onClick={() => dispatch(removeBasketItemAsync({
+                                  proizvodId: item.proizvodId, kolicina: 1, name: 'rem'
+                                }))} 
                                  color='error'>
                     <Remove />
                   </LoadingButton>
                   {item.kolicina}
                   <LoadingButton 
-                                 loading={status.loading && status.name === 'add' + item.proizvodId}
-                                 onClick={() => handleAddItem(item.proizvodId, 'add' + item.proizvodId)}
+                                 loading={status === 'pendingAddItem' + item.proizvodId}
+                                 onClick={() => dispatch(addBasketItemAsync({proizvodId: item.proizvodId}))}
                                  color='secondary'>
                     <Add />
                   </LoadingButton>
@@ -77,8 +61,10 @@ export default function BasketPage() {
                 <TableCell align="right">{(item.cena * item.kolicina).toFixed(2)}rsd</TableCell>
                 <TableCell align="right">
                     <LoadingButton 
-                                loading={status.loading && status.name === 'del' + item.proizvodId}
-                                onClick={() => handleRemoveItem(item.proizvodId, item.kolicina, 'del' + item.proizvodId)}
+                                loading={status === 'pendingRemoveItem' + item.proizvodId + 'del'}
+                                onClick={() => dispatch(removeBasketItemAsync({
+                                  proizvodId: item.proizvodId, kolicina: item.kolicina, name: 'del'
+                                }))}
                                 color = 'error'> 
                         <Delete />
                     </LoadingButton>    
