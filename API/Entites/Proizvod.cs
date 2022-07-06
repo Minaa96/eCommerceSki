@@ -16,7 +16,7 @@ namespace API.Entites
         public string PictureUrl { get; set; }
         public string Tip { get; set; }
         public string Brend { get; set; }
-        public string KolicinaNaStanju { get; set; }
+        public int KolicinaNaStanju { get; set; }
 
 
         

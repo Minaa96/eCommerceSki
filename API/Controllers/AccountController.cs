@@ -1,4 +1,5 @@
 
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -32,11 +33,7 @@ namespace API.Controllers
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
                 return Unauthorized();
 
-            /*return new KorisnikDto 
-            {
-                Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
-            };*/
+           
 
             var userBasket = await RetriveBasket(loginDto.UserName);
             var anonBasket = await RetriveBasket(Request.Cookies["buyerId"]);
@@ -107,6 +104,30 @@ namespace API.Controllers
             .Include(i => i.Items)
             .ThenInclude(p => p.Proizvod)
             .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
+        }
+
+        [Authorize]
+        [HttpGet("savedAddress")]
+        public async Task<ActionResult<UserAddress>> GetSavedAddress()
+        {
+            return await _userManager.Users
+                .Where(x => x.UserName == User.Identity.Name)
+                .Select(user => user.Address)
+                .FirstOrDefaultAsync();
+        }
+
+        private async Task<Basket> RetrieveBasket(string buyerId)
+        {
+            if (string.IsNullOrEmpty(buyerId))
+            {
+                Response.Cookies.Delete("buyerId");
+                return null;
+            }
+
+            return await _context.Baskets
+                .Include(i => i.Items)
+                .ThenInclude(p => p.Proizvod)
+                .FirstOrDefaultAsync(x => x.BuyerId == buyerId);
         }
 
     }

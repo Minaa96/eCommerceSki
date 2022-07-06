@@ -45,8 +45,7 @@ namespace API.Data
                     PictureUrl = "Images/proizvodi/elan-wildcat-82-c-ps.jpg",
                     Tip = "Freeride",
                     Brend = "Elan",
-                    KolicinaNaStanju = "15"
-
+                    KolicinaNaStanju = 15
                 },
                  new Proizvod {
                     Ime = "Pancerice",
@@ -57,7 +56,7 @@ namespace API.Data
                     PictureUrl = "Images/proizvodi/15430401_5.jpg",
                     Tip = "Freeride",
                     Brend = "Tecnica",
-                    KolicinaNaStanju = "10"
+                    KolicinaNaStanju = 10
 
                 },
                 new Proizvod {
@@ -69,7 +68,7 @@ namespace API.Data
                     PictureUrl = "Images/proizvodi/SKI-DH5060_1.webp",
                     Tip = "Skijanje",
                     Brend = "Rossingol",
-                    KolicinaNaStanju = "10"
+                    KolicinaNaStanju = 10
 
                 },
                  new Proizvod {
@@ -81,7 +80,7 @@ namespace API.Data
                     PictureUrl = "Images/proizvodi/70212-WESTALPEN_3L_LIGHT_JACKET_W-M-01.jpg",
                     Tip = "Skijanje",
                     Brend = "Ortovox",
-                    KolicinaNaStanju = "5"
+                    KolicinaNaStanju = 5
 
                 },
                  new Proizvod {
@@ -93,9 +92,70 @@ namespace API.Data
                     PictureUrl = "Images/proizvodi/images.jpg",
                     Tip = "Skijanje",
                     Brend = "Ortovox",
-                    KolicinaNaStanju = "5"
+                    KolicinaNaStanju = 5
+
+                },
+                  new Proizvod {
+                    Ime = "Hybrid zenski",
+                    Opis = "Duks za planinarenje",
+                    Velicina = "M",
+                    Boja = "Ljubicasta",
+                    Cena = 30000,
+                    PictureUrl = "Images/proizvodi/hybrid.jpg",
+                    Tip = "Skijanje",
+                    Brend = "Ortovox",
+                    KolicinaNaStanju = 5
+
+                },
+                  new Proizvod {
+                    Ime = "Westaplen muski",
+                    Opis = "Komplet za skijanje",
+                    Velicina = "M",
+                    Boja = "Zelena",
+                    Cena = 130000,
+                    PictureUrl = "Images/proizvodi/images.jpg",
+                    Tip = "Skijanje",
+                    Brend = "Ortovox",
+                    KolicinaNaStanju = 15
+
+                },
+                 new Proizvod {
+                    Ime = "Pancerice",
+                    Opis = "Pancerica za svaki stil",
+                    Velicina = "305mm",
+                    Boja = "Narandzasta",
+                    Cena = 60000,
+                    PictureUrl = "Images/proizvodi/muskapanc.webp",
+                    Tip = "Freeride",
+                    Brend = "Tecnica",
+                    KolicinaNaStanju = 10
+
+                },
+                 new Proizvod {
+                    Ime = "Skije",
+                    Opis = "Skija za pistu",
+                    Velicina = "185cm",
+                    Boja = "Crvena",
+                    Cena = 150000,
+                    PictureUrl = "Images/proizvodi/r.jpg",
+                    Tip = "Piste",
+                    Brend = "Rossignol",
+                    KolicinaNaStanju = 10
+
+                },
+                 new Proizvod {
+                    Ime = "Pantalone",
+                    Opis = "Pantalone za skijanje i planinarenje zenske",
+                    Velicina = "L",
+                    Boja = "Zelena",
+                    Cena = 55000,
+                    PictureUrl = "Images/proizvodi/o.jpg",
+                    Tip = "Skijanje",
+                    Brend = "Ortovox",
+                    KolicinaNaStanju = 10
 
                 }
+
 
 
             };
