@@ -3,13 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entites;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(StoreContext context)
+        public static async Task Initialize(StoreContext context, UserManager<Korisnik> userManager)
         {
+            if(!userManager.Users.Any())
+            {
+                var user = new Korisnik
+                {
+                    UserName = "min",
+                    Email = "min@test.com"
+                };
+                
+            await userManager.CreateAsync(user, "Pa$$w0rd");
+            await userManager.AddToRoleAsync(user, "Member");
+
+            var admin = new Korisnik
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com"
+                };
+
+            await userManager.CreateAsync(admin, "Pa$$w0rd");
+            await userManager.AddToRolesAsync(admin, new[] {"Member", "Admin"});
+            
+            }
+
             if(context.Proizvodi.Any()) return;
 
             var proizvodi = new List<Proizvod>{
