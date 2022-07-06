@@ -93,6 +93,7 @@ namespace API
 
             services.AddAuthorization();
             services.AddScoped<TokenService>();
+            services.AddScoped<PaymentService>();
           
         }
 
