@@ -25,14 +25,14 @@ namespace API.Data.Migrations
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "ConcurrencyStamp",
-                value: "ef47f3a1-302f-4375-8239-59cce3326dba");
+                value: "684a9cc8-5426-4c5b-b7af-4507ace1b594");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: 2,
                 column: "ConcurrencyStamp",
-                value: "9255d914-7e52-49e8-9e02-cf2e7c014d9e");
+                value: "be77df84-829b-49ed-96bb-6b333112f49a");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
