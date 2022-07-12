@@ -16,7 +16,6 @@ namespace API.DTOs
         public long Subtotal { get; set; }
         public long DeliveryFee { get; set; }
         public string OrderStatus { get; set; } 
-        public string PaymentIntentId { get; set; }
         public long Total { get; set; }
     }
 }
