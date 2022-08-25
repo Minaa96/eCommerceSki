@@ -1,11 +1,11 @@
 import { Grid, Paper } from "@mui/material";
-import { useEffect } from "react";
 import AppPagination from "../../app/components/AppPagination";
 import CheckboxButtons from "../../app/components/CheckBoxButtons";
 import RadioButtonGroup from "../../app/components/RadioButtonGroup";
+import useProducts from "../../app/hooks/useProducts";
 import LoadingComponent from "../../app/layout/LoadingComponent";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { fetchFilters, fetchProizvodiAsync, productsSelectors, setPageNumber, setProductParams } from "./catalogSlice";
+import { setPageNumber, setProductParams } from "./catalogSlice";
 import ProductSearch from "./ProductSearch";
 import ProizvodiList from "./ProizvodiList";
 
@@ -17,20 +17,10 @@ const sortOptions = [
 
 export default function Catalog() {
 
-    const proizvodi = useAppSelector(productsSelectors.selectAll);
-    const {productsLoaded, status, filtersLoaded, brend, tip, productParams, metaData} = useAppSelector(state => state.catalog);
+    const {proizvodi, brend, tip, filtersLoaded, productsLoaded, metaData} = useProducts();
+    const {productParams} = useAppSelector(state => state.catalog);
     const dispatch = useAppDispatch();
-    
 
- useEffect(() => {
-    if (!productsLoaded) dispatch(fetchProizvodiAsync());
-    
-
- }, [productsLoaded,dispatch]) //kada koristimo prazan niz, znaci da ce se pozvati samo jednom! /[] da ga nema, bila bi beskonacna petlja
-
- useEffect(() => {
-    if (!filtersLoaded) dispatch(fetchFilters());
- }, [dispatch, filtersLoaded])
 
  if (!filtersLoaded) return <LoadingComponent message='Loading products...'/>
 
